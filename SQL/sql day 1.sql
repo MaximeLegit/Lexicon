@@ -76,3 +76,22 @@ order by category, price DESC;
 
 -- Exercise 2
 select * from customers where city like 'S%' OR city like 'M%' OR city is NULL;
+
+-- Exercise 3
+select * from products where category in ('Shoes') order by price DESC LIMIT 1 OFFSET 1;
+
+-- Exercise 4
+select * from customers order by joined_date DESC LIMIT 3 OFFSET 1;
+
+-- Exercise 5
+select first_name || ' ' || last_name as full_name from customers  order by last_name;
+
+-- Exercise 6
+select *,
+CASE
+when price < 200 then 'Low Cost'
+when price between 200 AND 799 then 'Medium Cost'
+when price > 800 then 'Premium'
+end as 'Categories'
+from products order by price;
+
