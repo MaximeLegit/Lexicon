@@ -95,3 +95,9 @@ when price > 800 then 'Premium'
 end as 'Categories'
 from products order by price;
 
+-- Exercise 7 
+select first_name, COALESCE(city, 'Unknown') from customers;
+
+-- Exercise 8
+select * from customers where strftime('%m', joined_date) <= '06';
+
