@@ -90,9 +90,21 @@ create table reviews(
 	foreign key (product_id) references products(product_id)
 );
 insert into products values (13, 'Hyperion', 'Book', 199, 2);
-insert into reviews VALUES (1, 13, 4, 'Data Science');
+insert into reviews values (1, 13, 4, 'Data Science');
+
 select * from reviews;
 select * from products;
 
 -- Exercise 6
--- YOu would get an error, for instance, CHECK constraint failed:
+-- YOu would get an error, for instance, CHECK constraint failed:...
+
+-- Exercise 7
+
+insert into reviews values (77, 50, 5, 'attempting to add review for product with product_id = 50');
+-- Similair as in exercise 6, we get an error. This is because, if we execute line 96, there is no such product_id 50,
+-- hence the program will fail.
+
+
+-- Extra Challenges
+
+-- Level 1
