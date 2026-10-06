@@ -25,6 +25,16 @@ for animal in animals:
 #dog = Dog("Buba")
 #print(isinstance(dog, Dog("GG")))
 
+# overriding
+class Employee:
+    def get_information(self):
+        return "Employee information"
+class Developer(Employee):
+    def get_information(self):
+        base_information = super().get_information()
+        return (base_information + " - Role: Developer")
+dev = Developer()
+print(dev.get_information())
 
 class Student:
     def __init__(self, name, score):

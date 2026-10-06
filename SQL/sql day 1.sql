@@ -101,3 +101,4 @@ select first_name, COALESCE(city, 'Unknown') from customers;
 -- Exercise 8
 select * from customers where strftime('%m', joined_date) <= '06';
 
+-- Exercise 9
