@@ -19,7 +19,7 @@ select name as products, price as price_sek from products; -- we modify how to d
 select * from customers where city = NULL;
 select * from customers where city is null;
 
--- LAB1
+-- LAB 1
 
 -- 1.1
 select first_name, email from customers;
@@ -52,6 +52,7 @@ select first_name, last_name from customers where city in ('Göteborg', 'Stockho
 select name as product, price as price_sek from products order by price;
 
 -- Bonus Questions
+
 -- B.1
 select * from products where category in ('Clothing', 'Shoes') AND price > 1000;
 
@@ -70,6 +71,7 @@ select * from customers where joined_date < '2025-01-01' AND city not in ('Uppsa
 order by city, last_name asc;
 
 -- Extra Challenges
+
 -- Exercise 1
 select * from products where category not in ('Accessories') AND stock > 0 AND name like '% %'
 order by category, price DESC;
@@ -102,3 +104,17 @@ select first_name, COALESCE(city, 'Unknown') from customers;
 select * from customers where strftime('%m', joined_date) <= '06';
 
 -- Exercise 9
+select * from products where length(name) = (select max(length(name)) from products);
+
+-- Exercise 10
+select substring(email, '@', instr(email, '@')) from customers;
+
+-- Exercise 11
+select name from products where price > (select avg(price) from products);
+
+-- Exercise 12
+--select * from products;
+select (name || ' costs ' || substr(price, 1, instr(price, '.') - 1) || ' kr') as output from products 
+where stock > 0 order by price;
+
+-- Exercise 13
