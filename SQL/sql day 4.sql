@@ -52,3 +52,25 @@ join customers customer on customer.customer_id = orders.customer_id where custo
 
 select order_items.order_id, product.name, product.category from order_items
 join products product on product.product_id = order_items.product_id;
+
+-- Exercise 5
+
+select order_items.order_id, product.name from order_items
+join products product on product.product_id = order_items.product_id where product.category = 'Shoes';
+
+-- Exercise 6
+
+select products.name, oi.quantity, oi.unit_price, oi.quantity * oi.unit_price as 'line total' from products
+join order_items oi on oi.product_id = products.product_id where oi.order_id = 10;
+
+-- Exercise 7
+
+select customer.first_name, orders.order_date from orders
+join customers customer on customer.customer_id = orders.customer_id
+join order_items oi on oi.order_id = orders.order_id
+join products product on product.product_id = oi.product_id where product.name = 'Hoodie Black';
+
+-- Exercise 8
+
+select customer.first_name, o.order_id from customers customer 
+left join orders o on customer.customer_id = o.customer_id;
