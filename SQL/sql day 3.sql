@@ -111,3 +111,56 @@ select * from orders;
 -- Exercise 9
 
 -- Check indeed. The easier way is to just run webshop_reset.sql, to be super safe. Which I have done.
+
+-- Exercise 10
+
+'Based on my understanding of tables so far, I believe there is a basic violation of the first normal form. What would be the unique key here, is it
+only the student, or the student with one or many phone numbers? Then there is the relationship. A student can have several courses, but courses also,
+ideally, should have several students. Without seeing much data, it is a bit hard to say what other problems are there. I am not a visionary sadly.'
+
+-- Exercuse 11
+
+'Similarly as in exercise 10, I beleive the first normal form is broken. I think to make it more correct we should split products INTO
+product and quantity. WE also do not specify the primary key, which ideally we should.'
+
+-- Exercise 12
+
+'In my humble opinion, columns can be in any order since we have the option to sort by specific columns. If we have a set of data, the only difference
+will be where it is shown. However, If we need to have a priamry key comprised of two columns, perhaps that could affect where it is. Having written this,
+I believe it may be better to have order_date after order_id.'
+
+-- Exercise 13
+
+'Assuming I understood this correctly, we should see a table, perhaps of this kind?
+Teachers -> students -> lessons -> date | time | room | instruments'
+
+-- Exercise 14
+' One to many: 
+1. Student can have a lesson, or many lessons. Student can have one teacher, or can be taught by several teachers.
+2. Lesson can have one or many instruments.
+3. Teacher can have one lessons, or many lessons. Similarly, but very rarely, teacher can have a lesson with one student, or more ofthen, with many students.
+
+Many to many:
+Teachers can teach several instruments. Teachers can have many students but are connected via the lesson + instrument in this case, since its a music school.'
+
+-- Exercise 15
+
+-- This is an attempt at a diagram based on my understanding
+-- (Date, Time, Room) <-- Lesson <-- Teacher --> Instruments
+--                           ^           |            ^
+-- 							 |------- Student --------|
+
+insert into students VALUES
+('Max', 1), ('Lola', 2);
+
+insert into teachers VALUES
+('Alladin', 1), ('Haithem', 2);
+
+INSERT INTO lesson VALUES
+('Python', 1, 1, 'Compiler', '2026-10-01', '09.00', 'Alpha'),
+('SQL', 2, 2, 'Keyboard', '2026-10-02', '09.00', 'Beta'),
+('Machine Learning', 1, 1, 'Mouse', '2026-10-03', '09.00', 'Gamma'),
+('C++', 2, 2, 'Monitor', '2026-10-04', '09.00', 'Delta'),
+('Java', 1, 1, 'Brains', '2026-10-05', '09.00', 'Epsilon');
+
+select * from lesson;
