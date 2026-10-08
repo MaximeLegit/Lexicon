@@ -47,3 +47,8 @@ join customers customer on customer.customer_id = orders.customer_id where custo
 
 select customer.first_name, customer.city as 'customer location', orders.order_id from orders
 join customers customer on customer.customer_id = orders.customer_id where customer.city = 'Göteborg';
+
+-- Exercise 4
+
+select order_items.order_id, product.name, product.category from order_items
+join products product on product.product_id = order_items.product_id;
