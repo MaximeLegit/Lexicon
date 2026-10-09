@@ -79,3 +79,5 @@ left join orders o on customer.customer_id = o.customer_id;
 
 select concat(products.name, ' has never been sold') as 'Result:' from products
 left join order_items on products.product_id = order_items.product_id where order_items.product_id is NULL;
+
+-- Exercise 10
