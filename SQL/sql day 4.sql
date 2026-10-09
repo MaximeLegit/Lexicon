@@ -123,3 +123,19 @@ join orders o on customer.customer_id = o.customer_id
 join products product on product.product_id = oi.product_id
 join order_items oi on oi.order_id = o.order_id where customer.first_name = 'Leo';
 
+-- Exercise 6
+
+select * from orders;
+update orders set status = 'cancelled' where order_id = 12;
+update products set stock = 13 where name = 'Sneakers Classic';
+update products set stock = 101 where name = 'Socks 3-pack';
+select * from orders;
+
+-- Exercise 7
+
+delete from products where name = 'Hoodie Black';
+' The deletion stops since there is a dependency on the foreign key. This dependency is in the order items table,
+since order_items are comprised of the data from in it, and several orders are pointing to this product.
+To stop selling it, I think the best way is to set the stock to 0 and halt/cancel the other orders.'
+
+-- Exercise 8
