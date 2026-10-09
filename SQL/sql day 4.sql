@@ -81,3 +81,28 @@ select concat(products.name, ' has never been sold') as 'Result:' from products
 left join order_items on products.product_id = order_items.product_id where order_items.product_id is NULL;
 
 -- Exercise 10
+
+select customer.first_name, product.name, oi.quantity from order_items oi
+join orders on orders.order_id = oi.order_id
+join products product on product.product_id = oi.product_id
+join customers customer on customer.customer_id = orders.customer_id where customer.city = 'Uppsala' order by customer.first_name;
+
+-- ##################  Extra Exercises  ################## 
+
+-- Exercise 1
+
+SELECT COUNT(*) FROM orders;
+
+select * from products where category = 'Accessories' and price > 150 and price < 500 order by price DESC;
+-- NOTE! Even though your answer says 4 rows, in case of accessroes, the Backpack Urban costs 823, which is more than 500 sek.
+
+-- Exercise 2
+
+select * from orders where order_date like '2026-02%' and status not like 'cancel%';
+
+ -- Exercise 3
+ 
+select orders.order_id, products.name, oi.quantity, oi.quantity * oi.unit_price as line_total from order_items oi
+join orders on orders.order_id = oi.order_id
+join products on products.product_id = oi.product_id 
+where line_total > 500 order by line_total DESC;
