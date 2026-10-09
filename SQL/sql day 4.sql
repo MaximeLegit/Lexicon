@@ -149,3 +149,17 @@ select * from products;
 -- with discount
 update products set discount_percent = 20;
 select product_id, name, category, price - ( price * (discount_percent / 100.0)) as price, stock, discount_percent from products;
+
+-- Exercise 9
+
+select product.name, product.category, o.order_date, o.status from products product
+left join order_items oi on oi.product_id = product.product_id
+left join orders o on o.order_id = oi.order_id order by product.name;
+
+-- Exercise 10
+
+select distinct customer.first_name, customer.last_name from customers customer
+join orders o on o.customer_id = customer.customer_id 
+join order_items oi on oi.order_id = o.order_id
+join products product on product.product_id = oi.product_id where category = 'Shoes';
+
