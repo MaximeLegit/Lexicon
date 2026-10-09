@@ -106,3 +106,20 @@ select orders.order_id, products.name, oi.quantity, oi.quantity * oi.unit_price 
 join orders on orders.order_id = oi.order_id
 join products on products.product_id = oi.product_id 
 where line_total > 500 order by line_total DESC;
+
+ -- Exercise 4
+
+select distinct customer.first_name, customer.last_name from customers customer
+join orders o on o.customer_id = customer.customer_id where customer.city in ('Stockholm', 'Uppsala');
+
+ -- Exercise 5
+ 
+insert into customers values (11, 'Leo', 'Falk', 'leo@falk.com', ' Uppsala', '2026-10-09');
+insert into orders values (16, 11, '2026-10-09', 'new');
+insert into order_items values (16, 1, 1, 599), (16, 9, 2, 258);
+
+select customer.first_name, product.name, oi.quantity * oi.unit_price as total_cost from customers customer 
+join orders o on customer.customer_id = o.customer_id
+join products product on product.product_id = oi.product_id
+join order_items oi on oi.order_id = o.order_id where customer.first_name = 'Leo';
+
