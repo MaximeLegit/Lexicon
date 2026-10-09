@@ -139,3 +139,13 @@ since order_items are comprised of the data from in it, and several orders are p
 To stop selling it, I think the best way is to set the stock to 0 and halt/cancel the other orders.'
 
 -- Exercise 8
+
+alter table products add column discount_percent INT NOT NULL
+check (discount_percent >= 0 and discount_percent <= 90) default (0);
+
+-- without discount
+select * from products;
+
+-- with discount
+update products set discount_percent = 20;
+select product_id, name, category, price - ( price * (discount_percent / 100.0)) as price, stock, discount_percent from products;
