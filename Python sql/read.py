@@ -46,7 +46,7 @@ cursor.execute("SELECT count (*) from products where category = ?", (category,))
 print(f"{category} category has {cursor.fetchone()[0]} products")
 
 
-
+# Exercise 4
 
 
 
