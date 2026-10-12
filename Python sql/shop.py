@@ -49,10 +49,16 @@ def show_receipt(conn):
     for o_id, p_name, oi_up in query:
         print(f"{o_id:<8} {p_name:<20} {oi_up:>8.2f}")
 
+def best_sellers(conn):
+
+    query = conn.execute("select name, category, price from products group by category order by price DESC limit 3")
+    for name, cat, price in query:
+        print(name, cat, price)
+
 def main():
     conn = connect()
     while True:
-        print("\n1) List products  2) Search customers  3) Add product 4) Change the stock of a product 5) Show Order Receipt 0) Quit")
+        print("\n1) List products  2) Search customers  3) Add product 4) Change the stock of a product 5) Show Order Receipt 6) Top 3 Best Selling Products 0) Quit")
         choice = input("> ")
         if choice == "1":
             list_products(conn)
@@ -64,6 +70,8 @@ def main():
             change_stock_of_products(conn)
         elif choice == "5":
             show_receipt(conn)
+        elif choice == "6":
+            best_sellers(conn)
         elif choice == "0":
             break
     conn.close()
