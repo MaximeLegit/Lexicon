@@ -163,3 +163,8 @@ join orders o on o.customer_id = customer.customer_id
 join order_items oi on oi.order_id = o.order_id
 join products product on product.product_id = oi.product_id where category = 'Shoes';
 
+-- Exercise 11
+
+-- self join  use  < on customer id;
+
+
