@@ -99,6 +99,9 @@ def customer_overview(cursor):
 
 customer_overview(cursor)
 
+# Exercise 12 
 
+# Personally, I would say it benefits no one or anything really. It only serves as a data collector, perhaps for statistics; if such is
+# the case, then there should be customer notification that their data is being process, considering GDPR nowadays. 
 
 connection.close()
