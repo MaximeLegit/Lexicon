@@ -53,7 +53,7 @@ def basics_part2(db):
         print(row_data)
     else:
         print("Maxime missing")
-
+    ## TODO ADD PPRINT
     print("\n####################### Exercise 8 #######################\n")
     
     products = [
@@ -63,4 +63,18 @@ def basics_part2(db):
     db.products.insert_many(products)
     print("The amount of products we have is: ", db.products.count_documents({}))
 
-basics_part2(db)
+#basics_part2(db)
+
+def basics_part3(db):
+
+    print("\n####################### Exercise 9 #######################\n")
+    # 'First Last (City) + unknown
+    print(f"\n{"First Name":<8} {"Last Name":<12} {"City":<12}\n")
+
+    for customer in db.customers.find():
+        if customer.get("city") is not None:
+            print(f"{customer["first_name"]:<10} {customer["last_name"]:<12} {customer["city"]:<12}")
+        else:
+            print(f"{customer["first_name"]:<10} {customer["last_name"]:<12} {"Unknown":<12}")
+
+basics_part3(db)
