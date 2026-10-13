@@ -51,9 +51,11 @@ def show_receipt(conn):
 
 def best_sellers(conn):
 
-    query = conn.execute("select name, category, price from products group by category order by price DESC limit 3")
-    for name, cat, price in query:
-        print(name, cat, price)
+    query = conn.execute("select name, category, sum(oi.quantity) as total from products" \
+    " join order_items oi on oi.product_id = products.product_id" \
+    " group by name, category, products.product_id order by total DESC limit 3")
+    for name, cat, total in query:
+        print(name, cat, total)
 
 def main():
     conn = connect()
