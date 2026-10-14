@@ -59,8 +59,7 @@ def part2(db):
         print(row_data["name"], row_data["category"], row_data["price"])
 
     print("\n####################### Exercise 9 #######################\n")
-    #f
-#    db.products.update_many({"name": "Rain Jacket"}, {"$push": {"tags": "new"}, "$set" : {"restock_date" : datetime.now()}})
+    # db.products.update_many({"name": "Rain Jacket"}, {"$push": {"tags": "new"}, "$set" : {"restock_date" : datetime.now()}})
     db.products.update_many({"name": "Rain Jacket"}, {"$addToSet": {"tags": "new"}, "$set" : {"restock_date" : datetime.now()}})
 
     for row_data in db.products.find({"name": "Rain Jacket"}):

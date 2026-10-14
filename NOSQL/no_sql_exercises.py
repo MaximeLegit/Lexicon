@@ -1,3 +1,4 @@
+from pprint import pprint
 from pymongo import MongoClient
 client = MongoClient("mongodb://localhost:27017/")
 db = client["webshop"]
@@ -50,10 +51,10 @@ def basics_part2(db):
     db.customers.update_one(finding_myself, {"$set": { 'email': "maxime@email.com" }})
     row_data = db.customers.find_one({"first_name" : "Maxime"})
     if row_data:
-        print(row_data)
+        pprint(row_data)
     else:
-        print("Maxime missing")
-    ## TODO ADD PPRINT
+        pprint("Maxime missing")
+    
     print("\n####################### Exercise 8 #######################\n")
     
     products = [
@@ -76,5 +77,9 @@ def basics_part3(db):
             print(f"{customer["first_name"]:<10} {customer["last_name"]:<12} {customer["city"]:<12}")
         else:
             print(f"{customer["first_name"]:<10} {customer["last_name"]:<12} {"Unknown":<12}")
+
+    print("\n####################### Exercise 10 #######################\n")
+    for row_data in db.orders.find():
+        print("Order", row_data["_id"], ":", len(row_data["items"]), "items")
 
 basics_part3(db)
