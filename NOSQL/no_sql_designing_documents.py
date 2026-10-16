@@ -9,7 +9,7 @@ def ex_one_to_five(db):
     print("Reference reviews. Why? It is my understanding that reviews can spawn over time, over many years. This list grows." \
     "\nPeople ofthen edit their reviews. Suffice to say, it is subject to change. Hence, not constant -> reference.")
 
-    print("\Reference members. Why? It depends here but referencing members is safer since members can be few, but can be many also." \
+    print("\nReference members. Why? It depends here but referencing members is safer since members can be few, but can be many also." \
     "\nPeople can become members, they can also stop being members. This data is also subjected to change, hence -> reference")
 
     print("\n####################### Exercise 2 #######################\n")
@@ -32,9 +32,9 @@ def ex_one_to_five(db):
     print("\n####################### Exercise 4 #######################\n")
 
     result = db.customers.aggregate([
-    {"$match" : {"city" : { "$in" : ["Göteborg", "Stockholm", "Uppsala" ]}}},
-    {"$group" : {"_id" :"$city", "count" : {"$sum" : 1}}},
-    {"$sort" : {"count" : -1}}
+        {"$match" : {"city" : { "$in" : ["Göteborg", "Stockholm", "Uppsala" ]}}},
+        {"$group" : {"_id" :"$city", "count" : {"$sum" : 1}}},
+        {"$sort" : {"count" : -1}}
     ])
     for row in result:
         print(row)
@@ -49,6 +49,47 @@ def ex_one_to_five(db):
     for row in result:
         print(row)
 
+def ex_six_to_ten(db):
+    
+    print("\n####################### Exercise 6 #######################\n")
+    
+    result = db.orders.aggregate([
+        {"$group" : {"_id" : "$customer_id", "nr_of_orders" : {"$sum" : 1}}},
+        {"$sort" : {"nr_of_orders" : 1 }},
+        {"$match" : {"nr_of_orders" : {"$gte" : 2}}}
+        ])
+    for row in result:
+            print(row)
+
+    print("\n####################### Exercise 7 #######################\n")
+
+    result = db.orders.aggregate([
+        {"$project" : {"nr_of_items" : {"$size" : "$items"}}}
+    ])
+    for row in result:
+        print(row)
 
 if __name__ == '__main__':
-    ex_one_to_five(db)
+    #ex_one_to_five(db)
+    ex_six_to_ten(db)
+    '''
+
+Exercise 7
+For each order, show the _id and the number of items in it. Use $project with $size.
+Expected: 15 rows
+
+Exercise 8
+How many units of each category have been sold? Products' categories are not in the orders, so
+you need $unwind and $lookup to products. Skip cancelled orders.
+Expected: 3 rows
+
+Exercise 9
+Revenue per status: for each status, the total of quantity times unit_price.
+Expected: 4 rows
+
+Exercise 10
+Challenge: which tags are the most common? Show each tag and how many products have it,
+most common first.
+Expected: 7 tags
+
+'''
