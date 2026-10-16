@@ -69,14 +69,28 @@ def ex_six_to_ten(db):
     for row in result:
         print(row)
 
+    print("\n####################### Exercise 8 #######################\n")
+
+    result = db.orders.aggregate([
+        {"$match" : {"status" : { "$in" : ["delivered", "shipped", "new"]}}},
+        {"$unwind" : "$items"},
+        {"$lookup": {
+        "from": "products", # other collection
+        "localField": "items.product_id", # field in orders
+        "foreignField": "_id", # field in products
+        "as": "output" # name of the new array
+        }},
+        {"$group" : {"_id" : "$output.category", "Units Sold:" : {"$sum" : "$items.quantity"}}}
+    ])
+    for row in result:
+        print(row)
+    
+
 if __name__ == '__main__':
     #ex_one_to_five(db)
     ex_six_to_ten(db)
+    
     '''
-
-Exercise 7
-For each order, show the _id and the number of items in it. Use $project with $size.
-Expected: 15 rows
 
 Exercise 8
 How many units of each category have been sold? Products' categories are not in the orders, so
@@ -92,4 +106,15 @@ Challenge: which tags are the most common? Show each tag and how many products h
 most common first.
 Expected: 7 tags
 
+
+
+        {"$match" : {"status" : { "$in" : ["delivered", "shipped", "new"]}}},
+        {"$unwind" : "$items"},
+        {"$lookup": {
+        "from": "products", # other collection
+        "localField": "items", # field in orders
+        "foreignField": "category", # field in products
+        "as": "test" # name of the new array
+        }},
+        {"$project" : {"Category:" : "$category", "Units Sold:" : {"$size" : "$items"}}}
 '''
