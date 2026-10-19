@@ -75,10 +75,10 @@ def ex_six_to_ten(db):
         {"$match" : {"status" : { "$in" : ["delivered", "shipped", "new"]}}},
         {"$unwind" : "$items"},
         {"$lookup": {
-        "from": "products", # other collection
+        "from": "products",
         "localField": "items.product_id", # field in orders
         "foreignField": "_id", # field in products
-        "as": "output" # name of the new array
+        "as": "output"
         }},
         {"$group" : {"_id" : "$output.category", "Units Sold:" : {"$sum" : "$items.quantity"}}}
     ])
@@ -92,11 +92,6 @@ if __name__ == '__main__':
     
     '''
 
-Exercise 8
-How many units of each category have been sold? Products' categories are not in the orders, so
-you need $unwind and $lookup to products. Skip cancelled orders.
-Expected: 3 rows
-
 Exercise 9
 Revenue per status: for each status, the total of quantity times unit_price.
 Expected: 4 rows
@@ -105,7 +100,6 @@ Exercise 10
 Challenge: which tags are the most common? Show each tag and how many products have it,
 most common first.
 Expected: 7 tags
-
 
 
         {"$match" : {"status" : { "$in" : ["delivered", "shipped", "new"]}}},
