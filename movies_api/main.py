@@ -14,7 +14,7 @@ movies = [
     {"id": 4, "title": "The Lord of the Rings The Two Towers", "director": "Peter Jackson", "year": 2002}
 ]
 
-# ############################ Task 1 ############################
+# ############################ Part I, Task I ############################
 @app.get("/movies")
 def get_movies(director : str | None = None , year : int | None = None):
     output = movies
@@ -26,7 +26,7 @@ def get_movies(director : str | None = None , year : int | None = None):
         raise HTTPException(status_code=404, detail="Requested movie not found.")
     return output
 
-# ############################ Task 2 ############################
+# ############################ Part I, Task II ############################
 def find_movie(id: int):
     for movie in movies:
         if movie['id'] == id:
@@ -39,11 +39,11 @@ def get_movie(movie_id: int):
 # Status codes: 200 on movie ID 1; 404 on ID 99 ( does not exist ); For 'movie_id': Value must be an integer on 'abc' input
 
 
-# ############################ Task 3 ############################
+# ############################ Part I, Task III ############################
 
 #get/movies function has been edited.
 
-# ############################ Task 4 ############################
+# ############################ Part I, Task IV ############################
 
 class Movie(BaseModel):
     title : str
@@ -60,7 +60,7 @@ def add_movie(movie: Movie):
 # As per lecture, it seems pydantic library, after giving it my first input, still understands that even if I submit a year as a string, it is still defined
 # as int in the class right. Further, the director, even though it was empty in the 2nd example, it is still an empty string. 
 
-# ############################ Task 5 ############################
+# ############################ Part I, Task V ############################
 
 @app.put("/movies/{movie_id}")
 def movie_lookup(movie_id : int, movie : Movie):
@@ -77,3 +77,49 @@ def delete_movie(movie_id : int):
 
 # When attempting to delete a movie a second time, we get into the clause of "if not output", menaing, the object we tried to purge is not there,
 # hence the exception.
+
+
+# ############################ Part II, Task I ############################
+
+class MovieUpdate(BaseModel):
+    title : str | None = None
+    director : str | None = None
+    year: int | None = None
+
+@app.patch("/movies/{movie_id}")
+def update_movie(movie_id : int, movie_update : MovieUpdate):
+    current_movie = find_movie(movie_id)
+    current_movie.update(movie_update.model_dump(exclude_unset=True))
+    return current_movie
+
+# ############################ Part II, Task II ############################
+
+'''
+Response body:
+{
+  "id": 1,
+  "title": "Dune (Part Two)",
+  "director": "Denis Villeneuve",
+  "year": 2000
+}
+
+Response from get movies/movies_id
+{
+  "id": 1,
+  "title": "Dune (Part Two)",
+  "director": "Denis Villeneuve",
+  "year": 2000
+}
+
+# ############################ Part II, Task III ############################
+
+What happenes with an empty body? According to my code, I got same output as above, with exception of year, it is 2024, as my original dictionary. Status code 200.
+What happens with a year written as text? I used "2000". It worked due to the pydantic library. When written twothousand, I got a 422 unprocessable error.
+Non existing ID? I get the expected error msg the movie is not found, status code 404.
+
+# ############################ Part II, Task IV ############################
+In my view, put is not a good practice since it replaces the whole data set it seems. Patch only updates the selected fields, which is more safe. In my practice,
+if you want a new row, data etc, first delete it so you know what you are deleting, then insert new data, like via put. It all depends on how person codes and their
+viewpoint on data integrity.
+
+'''

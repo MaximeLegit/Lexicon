@@ -3,7 +3,7 @@ import requests
 
 BASE = "http://127.0.0.1:8000"
 
-# ############################ Task 6 ############################
+# ############################ Part I, Task VI ############################
 
 list_of_movies = get_json(f"{BASE}/movies")
 for m in list_of_movies:
