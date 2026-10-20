@@ -1,7 +1,7 @@
 import requests
 from api_client import get_json
 
-def lab1():
+def part1():
     print("\n############################ Task 1 ############################\n")
     
     product_data = get_json("https://fakestoreapi.com/products")
@@ -48,18 +48,35 @@ def lab1():
     print(response)
 
 
+def get_city(user_input):
+   
+    response = get_json("https://geocoding-api.open-meteo.com/v1/search", params= {"name" : user_input, "count" : 1})
+    print(response)
+    return response
 
+def get_weather(latitude, longitude):
+    response = get_json("https://api.open-meteo.com/v1/forecast", params= {
+        "latitude" : latitude,
+        "longitude" : longitude,
+        "current" : "temperature_2m,wind_speed_10m"})
+    print(response)
+    return response
 
+def part2():
+    
+    print("\n############################ Task 1 ############################\n")
+    print("Please providde a city to get its latitude and longitude coordinates:")
+    user_input = input()
+    response = get_city(user_input)
+    print("City: ", user_input, "Latitude", response["results"][0]["latitude"], "Longitude", response["results"][0]['longitude'])
+    
+    print("\n############################ Task 2 ############################\n")
+    weather = get_weather(response["results"][0]["latitude"], response["results"][0]['longitude'])
 
-
-
-
-
-
-
-
-
-
+    print("\n############################ Task 3 ############################\n")
+    print(f"\nPutting it together:\n{user_input}, {response["results"][0]['country']}:\
+          {weather['current']['temperature_2m']}{weather['current_units']['temperature_2m']},\
+          wind {weather['current']['wind_speed_10m']} {weather['current_units']['wind_speed_10m']}")
 
 
 
@@ -72,4 +89,4 @@ def lab1():
 
 
 if __name__ == '__main__':
-    lab1()
+    part2()
