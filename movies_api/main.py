@@ -1,5 +1,17 @@
-from fastapi import FastAPI, HTTPException
+import os
+from fastapi import FastAPI, HTTPException, Header, Depends
 from pydantic import BaseModel
+from dotenv import load_dotenv, find_dotenv
+
+
+# ############################ Part III, Task I ############################
+
+load_dotenv(find_dotenv())
+API_KEY = os.getenv("API_KEY")
+if not API_KEY:
+    raise RuntimeError("Missing _API_KEY. Set it in your .env file and try again. Au revoir.")
+
+# ############################ Part III, Task I ############################
 
 app = FastAPI()
 
@@ -13,6 +25,16 @@ movies = [
     {"id": 3, "title": "The Lord of the Rings The Fellowship of the Ring", "director": "Peter Jackson", "year": 2001},
     {"id": 4, "title": "The Lord of the Rings The Two Towers", "director": "Peter Jackson", "year": 2002}
 ]
+
+
+# ############################ Part III, Task III ############################
+
+def check_key(x_api_key : str | None = Header(default=None)):
+    if x_api_key != API_KEY:
+        raise HTTPException(status_code=401)
+
+# ############################ Part III, Task III ############################
+
 
 # ############################ Part I, Task I ############################
 @app.get("/movies")
@@ -50,11 +72,13 @@ class Movie(BaseModel):
     director : str
     year: int
 
-@app.post("/movies", status_code=201)
+@app.post("/movies", status_code=201, dependencies=[Depends(check_key)])
 def add_movie(movie: Movie):
+
     new_id = max((movie["id"] for movie in movies), default = 0) + 1
     new_movie = {"id" : new_id, "title" : movie.title, "director" : movie.director, "year" : movie.year}
     movies.append(new_movie)
+
     return new_movie
 
 # As per lecture, it seems pydantic library, after giving it my first input, still understands that even if I submit a year as a string, it is still defined
@@ -62,7 +86,7 @@ def add_movie(movie: Movie):
 
 # ############################ Part I, Task V ############################
 
-@app.put("/movies/{movie_id}")
+@app.put("/movies/{movie_id}", dependencies=[Depends(check_key)])
 def movie_lookup(movie_id : int, movie : Movie):
     current_movie = get_movie(movie_id)
     current_movie['title'] = movie.title
@@ -70,7 +94,7 @@ def movie_lookup(movie_id : int, movie : Movie):
     current_movie['year'] = movie.year
     return current_movie
 
-@app.delete("/movies/{movie_id}", status_code=204)
+@app.delete("/movies/{movie_id}", status_code=204, dependencies=[Depends(check_key)])
 def delete_movie(movie_id : int):
     current_movie = get_movie(movie_id)
     movies.remove(current_movie)
@@ -86,7 +110,7 @@ class MovieUpdate(BaseModel):
     director : str | None = None
     year: int | None = None
 
-@app.patch("/movies/{movie_id}")
+@app.patch("/movies/{movie_id}", dependencies=[Depends(check_key)])
 def update_movie(movie_id : int, movie_update : MovieUpdate):
     current_movie = find_movie(movie_id)
     current_movie.update(movie_update.model_dump(exclude_unset=True))
@@ -123,3 +147,13 @@ if you want a new row, data etc, first delete it so you know what you are deleti
 viewpoint on data integrity.
 
 '''
+
+
+
+# Key generated via python3-64.exe -c "import secrets; print(secrets.token_hex(16))"
+
+# ############################ Part III, Task V ############################
+
+# Without key ? Status code 401, Unauthorised.
+# With key, status code 201, year changed.
+# Wrong key ? Status code 401, Unauthorised.
