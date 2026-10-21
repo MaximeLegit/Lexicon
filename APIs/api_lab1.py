@@ -1,8 +1,9 @@
-import requests
+import requests, os
+from dotenv import load_dotenv, find_dotenv
 from api_client import get_json
 
 def part1():
-    print("\n############################ Task 1 ############################\n")
+    print("\n############################ Part I Task I ############################\n")
     
     product_data = get_json("https://fakestoreapi.com/products")
     sorted_products = sorted(product_data, key = lambda value: value['price'])
@@ -11,7 +12,7 @@ def part1():
         print(f"{product['title']:<52} ${product['price']:>5}")
 
     """
-    print("\n############################ Task 2 ############################\n")
+    print("\n############################ Part I Task II ############################\n")
     
     categories = requests.get("https://fakestoreapi.com/products/categories").json()
     print(categories)
@@ -27,7 +28,7 @@ def part1():
         else:
             print("You did not type any of the correct categories. Try again laddie.")
 """
-    print("\n############################ Task 4 ############################\n")
+    print("\n############################ Part I Task IV ############################\n")
     
     new_product = {"title" : "PC",  'price' : 1444, 'description' : 'old cheap PC', 'image' : "let's pretend this is an image", 'category' : 'electronics' }
     response = requests.post("https://fakestoreapi.com/products", json = new_product)
@@ -36,7 +37,7 @@ def part1():
     response = requests.patch(f"https://fakestoreapi.com/products/{product_id}", json = {'price' : 1555})
     print("\nStatus code of patch operation:", response.status_code, " and answer is:", response.json())
 
-    print("\n############################ Task 5 ############################\n")
+    print("\n############################ Part I Task V ############################\n")
 
     get_json("https://httpMadeUpDomainCalledSunnyDay.com", timeout=0.001)
 
@@ -64,29 +65,54 @@ def get_weather(latitude, longitude):
 
 def part2():
     
-    print("\n############################ Task 1 ############################\n")
+    print("\n############################ Part II Task I, IV ############################\n")
     print("Please providde a city to get its latitude and longitude coordinates:")
-    user_input = input()
-    response = get_city(user_input)
-    print("City: ", user_input, "Latitude", response["results"][0]["latitude"], "Longitude", response["results"][0]['longitude'])
+    user_input = None
+    while True:
+        try:
+            user_input = input()
+            response = get_city(user_input)
+            print(response)
+            if response:
+                print("City: ", user_input, "Latitude", response["results"][0]["latitude"], "Longitude", response["results"][0]['longitude'])
+                break
+        except KeyError as exception:
+            print("We got a key error", exception)
+        
     
-    print("\n############################ Task 2 ############################\n")
+    print("\n############################ Part II Task II ############################\n")
+    print("Printing out the weather data:\n")
     weather = get_weather(response["results"][0]["latitude"], response["results"][0]['longitude'])
 
-    print("\n############################ Task 3 ############################\n")
+    print("\n############################ Part II Task III ############################\n")
     print(f"\nPutting it together:\n{user_input}, {response["results"][0]['country']}:\
           {weather['current']['temperature_2m']}{weather['current_units']['temperature_2m']},\
           wind {weather['current']['wind_speed_10m']} {weather['current_units']['wind_speed_10m']}")
 
 
+def part3():
+    
+    print("\n############################ Part III Task I-IV ############################\n")
+    load_dotenv(find_dotenv())
+    token = os.getenv("GITHUB_TOKEN")
+    print(token is None)
+    print(find_dotenv())
 
+    print("Please provide a github username to check this users repositories:")
+    user_input = input()
+    response = requests.get(f"https://api.github.com/users/{user_input}/repos", 
+                            params = {"sor" : "pushed", "per_page" : 5},
+                            headers ={"Authorization" : f"Bearer {token}"})
+    print("Printing response with the bearer token: ", response.headers["X-RateLimit-Limit"])
 
-
-
-
-
+    tokenless_response = requests.get(f"https://api.github.com/users/{user_input}/repos", 
+                            params = {"sor" : "pushed", "per_page" : 5})
+    print("Printing response WITHOUT the bearer token: ", tokenless_response.headers["X-RateLimit-Limit"])
 
 
 
 if __name__ == '__main__':
-    part2()
+    #part1()
+    #part2()
+    part3()
+    
