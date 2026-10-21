@@ -107,12 +107,3 @@ def ex_six_to_ten(db):
 if __name__ == '__main__':
     #ex_one_to_five(db)
     ex_six_to_ten(db)
-    
-    '''
-
-Exercise 10
-Challenge: which tags are the most common? Show each tag and how many products have it,
-most common first.
-Expected: 7 tags
-
-'''
