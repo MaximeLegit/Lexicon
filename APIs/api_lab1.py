@@ -109,7 +109,23 @@ def part3():
                             params = {"sor" : "pushed", "per_page" : 5})
     print("Printing response WITHOUT the bearer token: ", tokenless_response.headers["X-RateLimit-Limit"])
 
+    print("\n############################ Part III Task V ############################\n")
+    print("\nBreaking the token. Inserting a character different than one in the token. The result code is:")
+    original_part_of_token = token[-2:-1]
+    token = token.replace(original_part_of_token, 'X')
 
+    response = requests.get(f"https://api.github.com/users/{user_input}/repos", 
+                            params = {"sor" : "pushed", "per_page" : 5},
+                            headers ={"Authorization" : f"Bearer {token}"})
+    print(response.status_code)
+
+    token = os.getenv("GITHUB_TOKEN")
+    response = requests.get(f"https://api.github.com/users/{user_input}/repos", 
+                            params = {"sor" : "pushed", "per_page" : 5},
+                            headers ={"Authorization" : f"Bearer {token}"})
+    print(f"\nNow the token should be restored, and the status code is {response.status_code}")
+
+    print("Token from github has been deleted. Acknowledged.")
 
 if __name__ == '__main__':
     #part1()
