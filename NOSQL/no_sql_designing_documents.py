@@ -113,9 +113,12 @@ def ex_six_to_ten():
 
 def find_orders(request_text):
     data = json.loads(request_text)
-    print("Display:\n", data, data["status"])
-    return list(db.orders.find({"status": data["status"]}))
-
+    status = data["status"]
+    if status not in ["new", "shipped", "delivered", "cancelled"]:
+        raise ValueError("Not a valid status. You get 0.")
+    return list(db.orders.find({"status": status}))
+    # The issue here is that this puts our code open for injections by hackers, by having the query operate directly on the status like that. The better approach here is to remove the status part out of the find operation and check it separately.
+    # It is neat and all, and I would have probably written code like this myself, but nowadays, code security and code obfuscation is essential.
 
 def products_under(price):
     result = db.products.find({"price" : {"$lt" : price}})
@@ -156,12 +159,19 @@ if __name__ == '__main__':
     #ex_six_to_ten()
     #print("\n####################### Exercise 12 #######################\n")
     #final_stretch()
-    #x = find_orders(db, {"status": "new"})
-    #data = json.loads({"status": "new"})
-    #print("Display:\n", data, data["status"])
-    #x = list(db.orders.find({"status": data["status"]}))
-    #for i in x:
-        #print(i)
+    print("\n####################### Exercise 10 #######################\n")
+    
+    print("Calling improved find_orders() function with {\"status\": \"new\"} gives us:\n")
+    x = find_orders('{"status": "new"}')
+    for i in x:
+        print(i)
+
+    print("\nCalling improved find_orders() function with {\"$ne\": \"x\"} gives us:\n")
+    x = find_orders('{"status": {"$ne": "x"}}')
+    for i in x:
+        print(i)
+
+    print("\n####################### Exercise 13 #######################\n")
     print("Total amount of products via scnd_db is: ", exercise_thirteen(scnd_db))
 
     print("Total amount of products via working db is: ", exercise_thirteen(db))
