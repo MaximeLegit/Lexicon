@@ -84,7 +84,25 @@ def ex_six_to_ten(db):
     ])
     for row in result:
         print(row)
-    
+
+    print("\n####################### Exercise 9 #######################\n")
+
+    result = db.orders.aggregate([
+        {"$match" : {"status" : { "$in" : ["new", "shipped", "delivered", "cancelled"]}}},
+        {"$unwind" : "$items"},
+        {"$group" : {"_id" : "$status", "total" : {"$sum": {"$multiply" : ["$items.quantity", "$items.unit_price"]}}}}
+        ])
+    for row in result:
+        print(row)
+
+    print("\n####################### Exercise 10 #######################\n")
+    result = db.products.aggregate([
+        {"$unwind" : "$tags"},
+        {"$group" : {"_id" : "$tags", "tag_count" : {"$sum" : 1}}},
+        {"$sort" : {"tag_count" : -1 }}
+    ])
+    for row in result:
+        print(row)
 
 if __name__ == '__main__':
     #ex_one_to_five(db)
@@ -92,23 +110,9 @@ if __name__ == '__main__':
     
     '''
 
-Exercise 9
-Revenue per status: for each status, the total of quantity times unit_price.
-Expected: 4 rows
-
 Exercise 10
 Challenge: which tags are the most common? Show each tag and how many products have it,
 most common first.
 Expected: 7 tags
 
-
-        {"$match" : {"status" : { "$in" : ["delivered", "shipped", "new"]}}},
-        {"$unwind" : "$items"},
-        {"$lookup": {
-        "from": "products", # other collection
-        "localField": "items", # field in orders
-        "foreignField": "category", # field in products
-        "as": "test" # name of the new array
-        }},
-        {"$project" : {"Category:" : "$category", "Units Sold:" : {"$size" : "$items"}}}
 '''

@@ -43,3 +43,6 @@ print("\nTrying post with the key. Result:", response.status_code)
 
 response = add_movie_client_style(movie_departed)
 print("\nTrying post WITHOUT the key. Result:", response.status_code)
+
+print("\nPart III, Task VII")
+print("\nConfirmed, git status does not show .env file since it is in my .gitignore file. We are safe.")
