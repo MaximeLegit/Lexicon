@@ -145,6 +145,12 @@ def exercise_thirteen(database):
     except ServerSelectionTimeoutError:
         print("Friendly message.")
 
+def exercise_fourteen():
+    print("\n\nQ1. Personal data in customers is first, last name, phone and email. However, city, in my view, can also be considered as personal."
+    "\nQ2. This is a good idea if a customer is to be removed, you can easily pattern match on the ID only, no need to cross check several fields and update several places."
+    "\nQ3. If the database is small, say 10 people, it may not be bad. Here, the best practice would be to consider scaling and updates. Say you have eventually, like amazon,"
+    "\n customers in the thousands/millions. One, the size will be huge, two, updates will be slow, three, not certain this will work actually, if DB can support such size.")
+
 if __name__ == '__main__':
     #ex_one_to_five()
     #ex_six_to_ten()
