@@ -1,0 +1,61 @@
+Agile & Scrum, Exercises. Part 1
+
+1. 
+Having worked in waterfall I can confirm it works fine if the people and team know what they are doing. However, it goes wrong when one is applying this methodology
+to something that requires incremental changes or reviews, like, let's say a wedding. When planning it, one constantly needs to adjust things and review them along the way.
+Building a building, there, a design should be set and not changed unless some earth-shatterign event happens. In software development, like apps or games, it is good to
+have an incremental approach.
+
+2.
+Individuals and interactions over processes and tools - when following a scrum by the book, at one point we had no room for work on the side ( if it ever came ). However,
+when it did, instead of coming together as a team and solving the problem, we got told to stick to the rules and continue. The outcome was not great.
+
+Working software over comprehensive documentation - documenting is important, however, it must be a fine combination of how much one spends documenting over writing code. 
+A good example we had in a team: "I can sit in jira and make and document tasks for 7 hours a day, or I can write code for 7 hours". A good scrum master will coach the team
+to find the combination of right time allocation.
+
+3.
+a. Product Owner
+b. Primarily developers + ScM, however, PO should be involved too. 
+If you say otherwise then we can have a discussion. A good team and product owner should know what he/she is having in the product and how it works.
+c. Scrum Master / Product Owner.
+d. Product Owner.
+e. Scrum Master.
+
+4.
+In such unique case, we must replan the sprint and identify new goals. Sprint Planning. However, there are several things to note:
+Loss of time, reprioritisation, feature refinement. If those risks are agreed and confirmed by the Product owner, it can be done.
+
+5.
+Sprint Review - the team and product owner.
+Sprint Retrospective - the team.
+
+6.
+a. As a user I want to have a possibility to login so that I keep my orders under my account.
+b. As an owner I want to add functionality of exporting order to excel so that I can group results by different tables, data sets etc.
+c. As an owner I want to add dark mode so that I can browse my fantastic website with comfort in my eyes.
+
+7.
+1. The customer must be able to see all orders performed from his/her account.
+2. The customer should be able to see order date, price, and quantity of each order.
+3. The customer should be able to have the ability to sort orders by purchase date.
+
+8.
+When committing code, the code must be unit, component and function tested.
+When committing code, the whole team must approve the commit ( peer review ).
+When committing code, the code must be documented within reason.
+when beginning feature work, the team and product owner must have consensus on what will be delivered.
+When closing a feature, the product owner must have reviewed it and accepted the work.
+
+9.
+The principle of daily is: what have I done, what do I plan to do today, any impediments/blockers. If the person does not do that, then structure of the daily should change.
+The idea of daily is to share with your team the work you are doing so that everyone knows what is being contributed to the sprint goal.
+
+10.
+a. Scrum. It is good to have an incremental approach here to see how the app progresses and adapt changes accordingly if any.
+b. Kanban. Each person, upon availability, takes the highest prio ticket to help team.
+c. Kanban. It is hard to structure work and plan for something when you do not know what may happen.
+
+11.
+In my view, it would be good to hear arguments of the person who has shown 13 to understand why he/she thinks this task/story will take so much time and align with team
+accordingly. It is often that someone has overlooked someone, or misunderstood the scope. Hence the planning session exists.
