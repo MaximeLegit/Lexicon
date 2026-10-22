@@ -1,4 +1,4 @@
-import requests, os
+import requests, os, json, datetime, time
 from dotenv import load_dotenv, find_dotenv
 from api_client import get_json
 
@@ -52,7 +52,7 @@ def part1():
 def get_city(user_input):
    
     response = get_json("https://geocoding-api.open-meteo.com/v1/search", params= {"name" : user_input, "count" : 1})
-    print(response)
+    #print(response)
     return response
 
 def get_weather(latitude, longitude):
@@ -60,7 +60,7 @@ def get_weather(latitude, longitude):
         "latitude" : latitude,
         "longitude" : longitude,
         "current" : "temperature_2m,wind_speed_10m"})
-    print(response)
+    #print(response)
     return response
 
 def part2():
@@ -78,16 +78,15 @@ def part2():
                 break
         except KeyError as exception:
             print("We got a key error", exception)
-        
-    
+
     print("\n############################ Part II Task II ############################\n")
     print("Printing out the weather data:\n")
     weather = get_weather(response["results"][0]["latitude"], response["results"][0]['longitude'])
 
-    print("\n############################ Part II Task III ############################\n")
-    print(f"\nPutting it together:\n{user_input}, {response["results"][0]['country']}:\
-          {weather['current']['temperature_2m']}{weather['current_units']['temperature_2m']},\
-          wind {weather['current']['wind_speed_10m']} {weather['current_units']['wind_speed_10m']}")
+    #print("\n############################ Part II Task III ############################\n")
+    #print(f"\nPutting it together:\n{user_input}, {response["results"][0]['country']}:\
+    #      {weather['current']['temperature_2m']}{weather['current_units']['temperature_2m']},\
+    #      wind {weather['current']['wind_speed_10m']} {weather['current_units']['wind_speed_10m']}")
 
 
 def part3():
@@ -127,8 +126,56 @@ def part3():
 
     print("Token from github has been deleted. Acknowledged.")
 
+
+def time_since_modified(path):
+    timestamp = os.path.getmtime(str(path))
+    last_modified = datetime.datetime.fromtimestamp(timestamp)
+    return datetime.datetime.now() - last_modified
+
+def check_path():
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    file_path = os.path.join(dir_path, "weather.json")
+    return file_path
+
+def check_stored_data(city):
+
+    file_path = check_path()
+    if not os.path.exists(file_path):
+        return False
+
+    file_age = time_since_modified(file_path)
+    if file_age.total_seconds() < 600:
+        with open(file_path, "r", encoding="utf-8") as file:
+            data = json.load(file)
+        if data.get("city") == city.lower():
+            return data
+    return False
+
+def bonus():
+
+    print("\n############################ Part II Bonus Task ############################\n")
+    print("Please providde a city to get its weather:")
+    weather = None
+    try:
+        user_input = input().strip()
+        stored_data = check_stored_data(user_input)
+        if stored_data:
+            weather = stored_data
+        else:
+            response = get_city(user_input)
+            weather = get_weather(response["results"][0]["latitude"], response["results"][0]['longitude'])
+            file_path = check_path()
+            weather["city"] = user_input.lower()
+            with open(file_path, "w", encoding="utf-8") as file:
+               json.dump(weather, file, indent=4, ensure_ascii=False)
+        print(f"{user_input}, {weather['current']['temperature_2m']}{weather['current_units']['temperature_2m']},\
+ wind {weather['current']['wind_speed_10m']} {weather['current_units']['wind_speed_10m']}")
+    except KeyError as exception:
+        print("We got a key error", exception)
+
+
 if __name__ == '__main__':
     #part1()
-    #part2()
-    part3()
+    bonus()
+    #part3()
     

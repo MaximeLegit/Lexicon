@@ -1,0 +1,22 @@
+{
+    "latitude": 59.3289,
+    "longitude": 18.072357,
+    "generationtime_ms": 0.038504600524902344,
+    "utc_offset_seconds": 0,
+    "timezone": "GMT",
+    "timezone_abbreviation": "GMT",
+    "elevation": 24.0,
+    "current_units": {
+        "time": "iso8601",
+        "interval": "seconds",
+        "temperature_2m": "°C",
+        "wind_speed_10m": "km/h"
+    },
+    "current": {
+        "time": "2026-10-22T15:45",
+        "interval": 900,
+        "temperature_2m": 12.5,
+        "wind_speed_10m": 21.2
+    },
+    "city": "stockholm"
+}
